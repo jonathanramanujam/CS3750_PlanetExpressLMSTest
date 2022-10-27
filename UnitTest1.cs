@@ -87,14 +87,21 @@ namespace CS3750_PlanetExpressLMSTest
             LoginModel login = new LoginModel(null) { user = _context.User.FirstOrDefault(u => u.Email == "professor25@email.com") };
             int n = _context.Assignment.Count();
 
-            /*SQLAssignmentRepository assignmentRepo = new SQLAssignmentRepository(_context);
-                Course courseToDelete = _context.Course.FirstOrDefault(c => c.CourseName == "Test Course");
-                assignmentRepo.Add(courseToDelete.ID);*/
-            
+            SQLAssignmentRepository assignmentRepo = new SQLAssignmentRepository(_context);
+            Assignment assAdd = new Assignment();
+            assAdd.Name = "Test Assignment";
+            assAdd.SubmissionType = "FILE";
+            assAdd.PointsPossible = 10;
+            assAdd.OpenDateTime = new DateTime(2022, 10, 21, 23, 59, 00);
+            assAdd.CloseDateTime = new DateTime(2022, 12, 21, 23, 59, 00);
+            assAdd.CourseID = _context.Course.FirstOrDefault(c => c.UserID == login.user.ID).ID;
+            assAdd.Description = "This assignment fake AF";
+            assignmentRepo.Add(assAdd);
+
 
             //if there is no test course to delete, this will fail, just run createCourse before it
-            int m = _context.Course.Count();
-            //Assert.IsTrue(m == n + 1);
+            int m = _context.Assignment.Count();
+            Assert.IsTrue(m == n + 1);
         }
 
         [TestMethod]
