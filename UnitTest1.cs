@@ -16,7 +16,7 @@ namespace CS3750_PlanetExpressLMSTest
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void canAddCourseTest()
         {
             DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
             DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
@@ -64,11 +64,12 @@ namespace CS3750_PlanetExpressLMSTest
             int n = _context.Course.Count();
 
             SQLCourseRepository courseRepository = new SQLCourseRepository(_context);
-            if(_context.Course.FirstOrDefault(c => c.CourseName == "Test Course") != null)
+            if (_context.Course.FirstOrDefault(c => c.CourseName == "Test Course") == null)
             {
-                Course courseToDelete = _context.Course.FirstOrDefault(c => c.CourseName == "Test Course");
-                courseRepository.Delete(courseToDelete.ID);
+                canAddCourseTest();
             }
+            Course courseToDelete = _context.Course.FirstOrDefault(c => c.CourseName == "Test Course");
+            courseRepository.Delete(courseToDelete.ID);
 
             //if there is no test course to delete, this will fail, just run createCourse before it
             int m = _context.Course.Count();
@@ -76,7 +77,7 @@ namespace CS3750_PlanetExpressLMSTest
         }
 
         [TestMethod]
-        public void canCreateAssignment()
+        public void canCreateAssignmentTest()
         {
             DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
             DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
