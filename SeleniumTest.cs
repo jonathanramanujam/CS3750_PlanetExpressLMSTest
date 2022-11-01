@@ -12,6 +12,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium;
+using WebDriverManager.Helpers;
 
 namespace CS3750_PlanetExpressLMSTest
 {
@@ -148,7 +149,7 @@ namespace CS3750_PlanetExpressLMSTest
         [TestInitialize]
         public void CreateDriver()
         {
-            new DriverManager().SetUpDriver(new EdgeConfig());
+            new DriverManager().SetUpDriver(new EdgeConfig(), VersionResolveStrategy.MatchingBrowser);
             driver = new EdgeDriver();
         }
 
