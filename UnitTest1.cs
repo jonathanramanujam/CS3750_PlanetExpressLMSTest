@@ -16,7 +16,7 @@ namespace CS3750_PlanetExpressLMSTest
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void canAddCourseTest()
         {
             DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
             DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
@@ -52,31 +52,7 @@ namespace CS3750_PlanetExpressLMSTest
         }
 
         [TestMethod]
-        public void canDeleteCoursesTest()
-        {
-            DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
-            DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
-            SqlServerDbContextOptionsExtensions.UseSqlServer(builder, "Data Source=titan.cs.weber.edu,10433;Initial Catalog=LMS_Planet;Persist Security Info=True;User ID=LMS_Planet;Password=Planetexpress!!");
-            var _context = new CS3750_PlanetExpressLMSContext((DbContextOptions<CS3750_PlanetExpressLMSContext>)builder.Options);
-
-            //setup: login
-            LoginModel login = new LoginModel(null) { user = _context.User.FirstOrDefault(u => u.Email == "professor25@email.com") };
-            int n = _context.Course.Count();
-
-            SQLCourseRepository courseRepository = new SQLCourseRepository(_context);
-            if(_context.Course.FirstOrDefault(c => c.CourseName == "Test Course") != null)
-            {
-                Course courseToDelete = _context.Course.FirstOrDefault(c => c.CourseName == "Test Course");
-                courseRepository.Delete(courseToDelete.ID);
-            }
-
-            //if there is no test course to delete, this will fail, just run createCourse before it
-            int m = _context.Course.Count();
-            Assert.IsTrue(m == n - 1);
-        }
-
-        [TestMethod]
-        public void canCreateAssignment()
+        public void canCreateAssignmentTest()
         {
             DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
             DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
@@ -102,6 +78,37 @@ namespace CS3750_PlanetExpressLMSTest
             //if there is no test course to delete, this will fail, just run createCourse before it
             int m = _context.Assignment.Count();
             Assert.IsTrue(m == n + 1);
+        }
+
+        [TestMethod]
+        public void canDeleteCoursesTest()
+        {
+            DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
+            DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
+            SqlServerDbContextOptionsExtensions.UseSqlServer(builder, "Data Source=titan.cs.weber.edu,10433;Initial Catalog=LMS_Planet;Persist Security Info=True;User ID=LMS_Planet;Password=Planetexpress!!");
+            var _context = new CS3750_PlanetExpressLMSContext((DbContextOptions<CS3750_PlanetExpressLMSContext>)builder.Options);
+
+            //setup: login
+            LoginModel login = new LoginModel(null) { user = _context.User.FirstOrDefault(u => u.Email == "professor25@email.com") };
+            int n = _context.Course.Count();
+
+            SQLAssignmentRepository assignmentRepository = new SQLAssignmentRepository(_context);
+            SQLEnrollmentRepository enrollmentRepository = new SQLEnrollmentRepository(_context);
+
+            SQLCourseRepository courseRepository = new SQLCourseRepository(_context, assignmentRepository, enrollmentRepository);
+
+
+            if(_context.Course.FirstOrDefault(c => c.CourseName == "Test Course") == null)
+            {
+                canAddCourseTest();
+                n = _context.Course.Count();
+            }
+            Course courseToDelete = _context.Course.FirstOrDefault(c => c.CourseName == "Test Course");
+            courseRepository.Delete(courseToDelete.ID);
+
+            //if there is no test course to delete, this will fail, just run createCourse before it
+            int m = _context.Course.Count();
+            Assert.IsTrue(m == n - 1);
         }
 
         [TestMethod]
@@ -147,7 +154,7 @@ namespace CS3750_PlanetExpressLMSTest
                 dropEnroll = _context.Enrollment.FirstOrDefault(e => e.UserID == login.user.ID);
                 enrollRepo.Delete(dropEnroll.ID);
             }
-            
+
             //will fail if the user is not registered for any courses
             //perhaps run the registerForCourseTest?
             int m = _context.Enrollment.Count();
