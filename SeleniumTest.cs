@@ -47,9 +47,9 @@ namespace CS3750_PlanetExpressLMSTest
             textboxPassword.SendKeys("password");
             buttonLogin.Click();
 
-            var message = driver.FindElement(By.Id("Welcome"));
+            var message = driver.FindElement(By.Id("page-title"));
             var value = message.Text;
-            Assert.AreEqual("Welcome test testing!", value);
+            Assert.AreEqual("Dashboard", value);
         }
     }
 
@@ -101,11 +101,11 @@ namespace CS3750_PlanetExpressLMSTest
             buttonLogin.Click();
 
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
-            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("Welcome")));
+            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("page-title")));
 
-            var message = driver.FindElement(By.Id("Welcome"));
+            var message = driver.FindElement(By.Id("page-title"));
             var value = message.Text;
-            Assert.AreEqual("Welcome test testing!", value);
+            Assert.AreEqual("Dashboard", value);
         }
     }
 
@@ -145,9 +145,9 @@ namespace CS3750_PlanetExpressLMSTest
             textboxPassword.SendKeys("password");
             buttonLogin.Click();
 
-            var message = driver.FindElement(By.Id("Welcome"));
+            var message = driver.FindElement(By.Id("page-title"));
             var value = message.Text;
-            Assert.AreEqual("Welcome test testing!", value);
+            Assert.AreEqual("Dashboard", value);
         }
     }
 }
