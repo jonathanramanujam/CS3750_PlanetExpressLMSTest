@@ -1,19 +1,13 @@
-﻿using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using CS3750_PlanetExpressLMS.Models;
-using CS3750_PlanetExpressLMS.Data;
-using CS3750_PlanetExpressLMS.Pages;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using CS3750_PlanetExpressLMS;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Edge;
-using OpenQA.Selenium;
 using WebDriverManager.Helpers;
-using System.Linq.Expressions;
+
 
 namespace CS3750_PlanetExpressLMSTest
 {
@@ -53,9 +47,9 @@ namespace CS3750_PlanetExpressLMSTest
             textboxPassword.SendKeys("password");
             buttonLogin.Click();
 
-            var message = driver.FindElement(By.Id("Welcome"));
+            var message = driver.FindElement(By.Id("page-title"));
             var value = message.Text;
-            Assert.AreEqual("Welcome test testing!", value);
+            Assert.AreEqual("Dashboard", value);
         }
     }
 
@@ -106,9 +100,12 @@ namespace CS3750_PlanetExpressLMSTest
             textboxPassword.SendKeys("password");
             buttonLogin.Click();
 
-            var message = driver.FindElement(By.Id("Welcome"));
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("page-title")));
+
+            var message = driver.FindElement(By.Id("page-title"));
             var value = message.Text;
-            Assert.AreEqual("Welcome test testing!", value);
+            Assert.AreEqual("Dashboard", value);
         }
     }
 
@@ -148,9 +145,9 @@ namespace CS3750_PlanetExpressLMSTest
             textboxPassword.SendKeys("password");
             buttonLogin.Click();
 
-            var message = driver.FindElement(By.Id("Welcome"));
+            var message = driver.FindElement(By.Id("page-title"));
             var value = message.Text;
-            Assert.AreEqual("Welcome test testing!", value);
+            Assert.AreEqual("Dashboard", value);
         }
     }
 }
