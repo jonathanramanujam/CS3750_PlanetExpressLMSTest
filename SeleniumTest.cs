@@ -51,6 +51,48 @@ namespace CS3750_PlanetExpressLMSTest
             var value = message.Text;
             Assert.AreEqual("Dashboard", value);
         }
+
+        [TestMethod]
+        public void ChromeMakePayment()
+        {
+            driver.Navigate().GoToUrl("https://localhost:44390/login");
+
+            var title = driver.Title;
+            Assert.AreEqual("Login - Planet Express Learning Management System", title);
+
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(500);
+
+            var textboxUsername = driver.FindElement(By.Id("textbox-username"));
+            var textboxPassword = driver.FindElement(By.Id("textbox-password"));
+            var buttonLogin = driver.FindElement(By.Id("button-login"));
+
+            textboxUsername.SendKeys("test@test.com");
+            textboxPassword.SendKeys("password");
+            buttonLogin.Click();
+
+/*            var message = driver.FindElement(By.Id("page-title"));
+            var value = message.Text;
+            Assert.AreEqual("Dashboard", value);*/
+
+            var paymentLink = driver.FindElement(By.LinkText("Account"));
+            paymentLink.Click();
+
+            var textboxFirstName = driver.FindElement(By.Name("txtFirstName"));
+            var textboxLastName = driver.FindElement(By.Name("txtLastName"));
+            var textboxCardNumber = driver.FindElement(By.Name("txtCardNumber"));
+            var textboxExpDate = driver.FindElement(By.Name("txtExpDate"));
+            var textboxCvv = driver.FindElement(By.Name("txtCvv"));
+            var textboxAmount = driver.FindElement(By.Name("txtAmount"));
+            var submitButton = driver.FindElement(By.ClassName("btn btn-primary"));
+
+            textboxFirstName.SendKeys("test");
+            textboxLastName.SendKeys("test");
+            textboxCardNumber.SendKeys("4242424242424242");
+            textboxCvv.SendKeys("123");
+            textboxExpDate.SendKeys("December2023");
+            textboxAmount.SendKeys("5");
+            submitButton.Click();
+        }
     }
 
     [TestClass]

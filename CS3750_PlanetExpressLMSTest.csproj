@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CS3750_PlanetExpressLMS\CS3750_PlanetExpressLMS.csproj" />
+    <ProjectReference Include="..\CS3750_LMS_TeamProjectExpress\CS3750_PlanetExpressLMS.csproj" />
   </ItemGroup>
 
 </Project>
