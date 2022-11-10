@@ -272,5 +272,48 @@ namespace CS3750_PlanetExpressLMSTest
             int m = _context.Payment.Count();
             Assert.IsTrue(m == n + 1);
         }
+
+        [TestMethod]
+        public void canSubmitAssignment()
+        {
+            DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
+            DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
+            SqlServerDbContextOptionsExtensions.UseSqlServer(builder, "Data Source=titan.cs.weber.edu,10433;Initial Catalog=LMS_Planet;Persist Security Info=True;User ID=LMS_Planet;Password=Planetexpress!!");
+            var _context = new CS3750_PlanetExpressLMSContext((DbContextOptions<CS3750_PlanetExpressLMSContext>)builder.Options);
+
+            //setup: login
+            LoginModel login = new LoginModel(null) { user = _context.User.FirstOrDefault(u => u.Email == "fakestudent@mail.com") };
+            int n = _context.Submission.Count();
+
+            //Mock environment (thank you Brooks)
+            Mock<IWebHostEnvironment> _environment = new Mock<IWebHostEnvironment>();
+            _environment
+                .Setup(m => m.EnvironmentName)
+                .Returns("Hosting:UnitTestEnvironment");
+            
+
+            SQLSubmissionRepository subRepo = new SQLSubmissionRepository(_context, _environment.Object);
+            Submission newsub = new Submission();
+
+            //gotta get a course the student is in, then an assignment in that course
+            int courseID = Convert.ToInt32(_context.Enrollment.FirstOrDefault(e => e.UserID == login.user.ID).CourseID);
+            int assID = Convert.ToInt32(_context.Assignment.FirstOrDefault(a => a.CourseID == courseID).ID);
+
+            newsub.SubmissionTime = DateTime.Now;
+            newsub.AssignmentID = assID;
+            newsub.UserID = login.user.ID;
+
+            //chose this because it's already here. Don't really wanna go all out on some file upload code if i dont have to...
+                //.txt files work for both file upload and txt box submissions...
+            newsub.Path = "wwwroot\\submissions\\Text_StuDent.txt"; 
+            newsub.Grade = null;
+
+            //add the assignment
+            subRepo.Add(newsub);
+
+            //check that the submission went in
+            int m = _context.Submission.Count();
+            Assert.IsTrue(m == n + 1);
+        }
     }
 }
