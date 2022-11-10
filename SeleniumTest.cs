@@ -194,7 +194,7 @@ namespace CS3750_PlanetExpressLMSTest
             var paymentLink = driver.FindElement(By.LinkText("Account"));
             paymentLink.Click();
 
-            element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("page-title")));
+            element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("balance")));
 
             var originalBalance = driver.FindElement(By.Id("balance")).Text;
 
