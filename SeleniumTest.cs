@@ -77,13 +77,15 @@ namespace CS3750_PlanetExpressLMSTest
             var paymentLink = driver.FindElement(By.LinkText("Account"));
             paymentLink.Click();
 
+            var originalBalance = driver.FindElement(By.Id("balance"));
+
             var textboxFirstName = driver.FindElement(By.Name("txtFirstName"));
             var textboxLastName = driver.FindElement(By.Name("txtLastName"));
             var textboxCardNumber = driver.FindElement(By.Name("txtCardNumber"));
             var textboxExpDate = driver.FindElement(By.Name("txtExpDate"));
             var textboxCvv = driver.FindElement(By.Name("txtCvv"));
             var textboxAmount = driver.FindElement(By.Name("txtAmount"));
-            var submitButton = driver.FindElement(By.ClassName("btn btn-primary"));
+            var submitButton = driver.FindElement(By.ClassName("btn-primary"));
 
             textboxFirstName.SendKeys("test");
             textboxLastName.SendKeys("test");
@@ -92,6 +94,9 @@ namespace CS3750_PlanetExpressLMSTest
             textboxExpDate.SendKeys("December2023");
             textboxAmount.SendKeys("5");
             submitButton.Click();
+
+            var newBalance = driver.FindElement(By.Id("balance"));
+            Assert.AreNotEqual(originalBalance, newBalance);
         }
     }
 
@@ -191,13 +196,15 @@ namespace CS3750_PlanetExpressLMSTest
 
             element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("page-title")));
 
+            var originalBalance = driver.FindElement(By.Id("balance"));
+
             var textboxFirstName = driver.FindElement(By.Name("txtFirstName"));
             var textboxLastName = driver.FindElement(By.Name("txtLastName"));
             var textboxCardNumber = driver.FindElement(By.Name("txtCardNumber"));
             var textboxExpDate = driver.FindElement(By.Name("txtExpDate"));
             var textboxCvv = driver.FindElement(By.Name("txtCvv"));
             var textboxAmount = driver.FindElement(By.Name("txtAmount"));
-            var submitButton = driver.FindElement(By.ClassName("btn btn-primary"));
+            var submitButton = driver.FindElement(By.ClassName("btn-primary"));
 
             textboxFirstName.SendKeys("test");
             textboxLastName.SendKeys("test");
@@ -206,6 +213,9 @@ namespace CS3750_PlanetExpressLMSTest
             textboxExpDate.SendKeys("December2023");
             textboxAmount.SendKeys("5");
             submitButton.Click();
+
+            var newBalance = driver.FindElement(By.Id("balance"));
+            Assert.AreNotEqual(originalBalance, newBalance);
         }
     }
 
@@ -275,13 +285,15 @@ namespace CS3750_PlanetExpressLMSTest
             var paymentLink = driver.FindElement(By.LinkText("Account"));
             paymentLink.Click();
 
+            var originalBalance = driver.FindElement(By.Id("balance"));
+
             var textboxFirstName = driver.FindElement(By.Name("txtFirstName"));
             var textboxLastName = driver.FindElement(By.Name("txtLastName"));
             var textboxCardNumber = driver.FindElement(By.Name("txtCardNumber"));
             var textboxExpDate = driver.FindElement(By.Name("txtExpDate"));
             var textboxCvv = driver.FindElement(By.Name("txtCvv"));
             var textboxAmount = driver.FindElement(By.Name("txtAmount"));
-            var submitButton = driver.FindElement(By.ClassName("btn btn-primary"));
+            var submitButton = driver.FindElement(By.ClassName("btn-primary"));
 
             textboxFirstName.SendKeys("test");
             textboxLastName.SendKeys("test");
@@ -290,6 +302,9 @@ namespace CS3750_PlanetExpressLMSTest
             textboxExpDate.SendKeys("December2023");
             textboxAmount.SendKeys("5");
             submitButton.Click();
+
+            var newBalance = driver.FindElement(By.Id("balance"));
+            Assert.AreNotEqual(originalBalance, newBalance);
         }
     }
 }
