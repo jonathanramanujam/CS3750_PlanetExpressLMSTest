@@ -205,6 +205,7 @@ namespace CS3750_PlanetExpressLMSTest
             }
         }
 
+        [TestMethod]
         public void canEditProfileNameTest()
         {
             DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
