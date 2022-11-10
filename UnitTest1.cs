@@ -169,6 +169,49 @@ namespace CS3750_PlanetExpressLMSTest
             SqlServerDbContextOptionsExtensions.UseSqlServer(builder, "Data Source=titan.cs.weber.edu,10433;Initial Catalog=LMS_Planet;Persist Security Info=True;User ID=LMS_Planet;Password=Planetexpress!!");
             var _context = new CS3750_PlanetExpressLMSContext((DbContextOptions<CS3750_PlanetExpressLMSContext>)builder.Options);
 
+            SQLUserRepository userRepo = new SQLUserRepository(_context);
+
+            // Get the user
+            User user = _context.User.FirstOrDefault(u => u.Email == "fakestudent@mail.com");
+
+            // Retrieve the old names
+            string oldFirstName = user.FirstName;
+            string oldLastName = user.LastName;
+
+            // Alternate between Real Scholar and Fake Student, and make sure it changes.
+            if (oldFirstName == "Real" || oldLastName == "Scholar")
+            {
+                user.FirstName = "Fake";
+                user.LastName = "Student";
+
+                userRepo.Update(user);
+
+                user = _context.User.FirstOrDefault(u => u.Email == "fakestudent@mail.com");
+
+                Assert.AreEqual("Fake", user.FirstName);
+                Assert.AreEqual("Student", user.LastName);
+            }
+            else // if name is fake student or anything else
+            {
+                user.FirstName = "Real";
+                user.LastName = "Scholar";
+
+                userRepo.Update(user);
+
+                user = _context.User.FirstOrDefault(u => u.Email == "fakestudent@mail.com");
+
+                Assert.AreEqual("Real", user.FirstName);
+                Assert.AreEqual("Scholar", user.LastName);
+            }
+        }
+
+        public void canEditProfileNameTest()
+        {
+            DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
+            DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
+            SqlServerDbContextOptionsExtensions.UseSqlServer(builder, "Data Source=titan.cs.weber.edu,10433;Initial Catalog=LMS_Planet;Persist Security Info=True;User ID=LMS_Planet;Password=Planetexpress!!");
+            var _context = new CS3750_PlanetExpressLMSContext((DbContextOptions<CS3750_PlanetExpressLMSContext>)builder.Options);
+
             //setup: login
             LoginModel login = new LoginModel(null) { user = _context.User.FirstOrDefault(u => u.Email == "studentstudent2@mail.com") };
             int n = _context.Payment.Count();
