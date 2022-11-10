@@ -77,7 +77,7 @@ namespace CS3750_PlanetExpressLMSTest
             var paymentLink = driver.FindElement(By.LinkText("Account"));
             paymentLink.Click();
 
-            var originalBalance = driver.FindElement(By.Id("balance"));
+            var originalBalance = driver.FindElement(By.Id("balance")).Text;
 
             var textboxFirstName = driver.FindElement(By.Name("txtFirstName"));
             var textboxLastName = driver.FindElement(By.Name("txtLastName"));
@@ -95,8 +95,8 @@ namespace CS3750_PlanetExpressLMSTest
             textboxAmount.SendKeys("5");
             submitButton.Click();
 
-            var newBalance = driver.FindElement(By.Id("balance"));
-            Assert.AreNotEqual(originalBalance.Text, newBalance.Text);
+            var newBalance = driver.FindElement(By.Id("balance")).Text;
+            Assert.AreNotEqual(originalBalance, newBalance);
         }
     }
 
@@ -196,7 +196,7 @@ namespace CS3750_PlanetExpressLMSTest
 
             element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("page-title")));
 
-            var originalBalance = driver.FindElement(By.Id("balance"));
+            var originalBalance = driver.FindElement(By.Id("balance")).Text;
 
             var textboxFirstName = driver.FindElement(By.Name("txtFirstName"));
             var textboxLastName = driver.FindElement(By.Name("txtLastName"));
@@ -214,8 +214,8 @@ namespace CS3750_PlanetExpressLMSTest
             textboxAmount.SendKeys("5");
             submitButton.Click();
 
-            var newBalance = driver.FindElement(By.Id("balance"));
-            Assert.AreNotEqual(originalBalance.Text, newBalance.Text);
+            var newBalance = driver.FindElement(By.Id("balance")).Text;
+            Assert.AreNotEqual(originalBalance, newBalance);
         }
     }
 
