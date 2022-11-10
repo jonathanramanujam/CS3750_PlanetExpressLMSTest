@@ -96,7 +96,7 @@ namespace CS3750_PlanetExpressLMSTest
             submitButton.Click();
 
             var newBalance = driver.FindElement(By.Id("balance"));
-            Assert.AreNotEqual(originalBalance, newBalance);
+            Assert.AreNotEqual(originalBalance.Text, newBalance.Text);
         }
     }
 
@@ -215,7 +215,7 @@ namespace CS3750_PlanetExpressLMSTest
             submitButton.Click();
 
             var newBalance = driver.FindElement(By.Id("balance"));
-            Assert.AreNotEqual(originalBalance, newBalance);
+            Assert.AreNotEqual(originalBalance.Text, newBalance.Text);
         }
     }
 
@@ -304,7 +304,7 @@ namespace CS3750_PlanetExpressLMSTest
             submitButton.Click();
 
             var newBalance = driver.FindElement(By.Id("balance"));
-            Assert.AreNotEqual(originalBalance, newBalance);
+            Assert.AreNotEqual(originalBalance.Text, newBalance.Text);
         }
     }
 }
