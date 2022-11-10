@@ -203,7 +203,7 @@ namespace CS3750_PlanetExpressLMSTest
         }
 
         [TestMethod]
-        public void canEditProfileNameTest()
+        public void canCreatePayment()
         {
             DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
             DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
@@ -244,6 +244,33 @@ namespace CS3750_PlanetExpressLMSTest
                 Assert.AreEqual("Real", user.FirstName);
                 Assert.AreEqual("Scholar", user.LastName);
             }
+        }
+
+        [TestMethod]
+        public void canEditProfileNameTest()
+        {
+            DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
+            DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
+            SqlServerDbContextOptionsExtensions.UseSqlServer(builder, "Data Source=titan.cs.weber.edu,10433;Initial Catalog=LMS_Planet;Persist Security Info=True;User ID=LMS_Planet;Password=Planetexpress!!");
+            var _context = new CS3750_PlanetExpressLMSContext((DbContextOptions<CS3750_PlanetExpressLMSContext>)builder.Options);
+
+            //setup: login
+            LoginModel login = new LoginModel(null) { user = _context.User.FirstOrDefault(u => u.Email == "studentstudent2@mail.com") };
+            int n = _context.Payment.Count();
+
+            SQLPaymentRepository paymentRepo = new SQLPaymentRepository(_context);
+            Payment payAdd = new Payment();
+            payAdd.FirstName = "Test";
+            payAdd.LastName = "Test";
+            payAdd.CardNumber = "4242424242424242";
+            payAdd.Cvv = "123";
+            payAdd.ExpDate = new DateTime(2023, 12, 21, 23, 59, 00);
+            payAdd.ID = login.user.ID;
+
+            paymentRepo.Add(payAdd);
+            //if there is no test course to delete, this will fail, just run createCourse before it
+            int m = _context.Payment.Count();
+            Assert.IsTrue(m == n + 1);
         }
     }
 }
