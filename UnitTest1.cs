@@ -85,6 +85,43 @@ namespace CS3750_PlanetExpressLMSTest
         }
 
         [TestMethod]
+        public void deleteAssignmentTest()
+        {
+            DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
+            DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
+            SqlServerDbContextOptionsExtensions.UseSqlServer(builder, "Data Source=titan.cs.weber.edu,10433;Initial Catalog=LMS_Planet;Persist Security Info=True;User ID=LMS_Planet;Password=Planetexpress!!");
+            var _context = new CS3750_PlanetExpressLMSContext((DbContextOptions<CS3750_PlanetExpressLMSContext>)builder.Options);
+
+            Mock<IWebHostEnvironment> _environment = new Mock<IWebHostEnvironment>();
+
+            _environment
+                .Setup(m => m.EnvironmentName)
+                .Returns("Hosting:UnitTestEnvironment");
+
+            //Set up login
+            LoginModel login = new LoginModel(null) { user = _context.User.FirstOrDefault(u => u.Email == "professor25@email.com") };
+            int n = _context.Assignment.Count();
+
+            SQLSubmissionRepository subRepo = new SQLSubmissionRepository(_context, _environment.Object);
+            SQLAssignmentRepository assRepo = new SQLAssignmentRepository(_context, subRepo);
+
+            //There are so many test assignments this shouldn't be a problem, but maybe eventually..
+            if (_context.Assignment.FirstOrDefault(a => a.Name == "Test Assignment") == null)
+            {
+                canCreateAssignmentTest();
+                n = _context.Assignment.Count();
+            }
+
+            Assignment assToDelete = _context.Assignment.FirstOrDefault(a => a.Name == "Test Assignment");
+            assRepo.Delete(assToDelete.ID);
+
+            //if there is no test course to delete, this will fail, just run createCourse before it
+            int m = _context.Assignment.Count();
+            Assert.IsTrue(m == n - 1);
+
+        }
+
+        [TestMethod]
         public void canDeleteCoursesTest()
         {
             DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
@@ -165,41 +202,6 @@ namespace CS3750_PlanetExpressLMSTest
             Assert.IsTrue(m == n - 1);
         }
 
-        [TestMethod]
-        public void deleteAssignmentTest()
-        {
-            DbContextOptions<CS3750_PlanetExpressLMSContext> options = new DbContextOptions<CS3750_PlanetExpressLMSContext>();
-            DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
-            SqlServerDbContextOptionsExtensions.UseSqlServer(builder, "Data Source=titan.cs.weber.edu,10433;Initial Catalog=LMS_Planet;Persist Security Info=True;User ID=LMS_Planet;Password=Planetexpress!!");
-            var _context = new CS3750_PlanetExpressLMSContext((DbContextOptions<CS3750_PlanetExpressLMSContext>)builder.Options);
-
-            Mock<IWebHostEnvironment> _environment = new Mock<IWebHostEnvironment>();
-
-            _environment
-                .Setup(m => m.EnvironmentName)
-                .Returns("Hosting:UnitTestEnvironment");
-
-            //Set up login
-            LoginModel login = new LoginModel(null) { user = _context.User.FirstOrDefault(u => u.Email == "professor25@email.com") };
-            int n = _context.Assignment.Count();
-
-            SQLSubmissionRepository subRepo = new SQLSubmissionRepository(_context, _environment.Object);
-            SQLAssignmentRepository assRepo = new SQLAssignmentRepository(_context, subRepo);
-
-            //There are so many test assignments this shouldn't be a problem, but maybe eventually..
-            if (_context.Assignment.FirstOrDefault(a => a.Name == "Test Assignment") == null)
-            {
-                canCreateAssignmentTest();
-                n = _context.Assignment.Count();
-            }
-
-            Assignment assToDelete = _context.Assignment.FirstOrDefault(a => a.Name == "Test Assignment");
-            assRepo.Delete(assToDelete.ID);
-
-            //if there is no test course to delete, this will fail, just run createCourse before it
-            int m = _context.Assignment.Count();
-            Assert.IsTrue(m == n - 1);
-
-        }
+       
     }
 }
