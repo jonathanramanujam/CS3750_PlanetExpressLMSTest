@@ -146,7 +146,7 @@ namespace CS3750_PlanetExpressLMSTest
             //make sure you got there
             var message = driver.FindElement(By.ClassName("page-title"));
             var value = message.Text;
-            Assert.AreEqual("Submit Assignment", value);
+            Assert.AreEqual("Course Details >> Submit Assignment", value);
         }
 
         [TestMethod]
@@ -175,7 +175,7 @@ namespace CS3750_PlanetExpressLMSTest
             //Assert you're on the right page
             var pageElement = driver.FindElement(By.ClassName("page-title"));
             var pageTitle = pageElement.Text;
-            Assert.AreEqual("Submit Assignment", pageTitle);
+            Assert.AreEqual("Course Details >> Submit Assignment", pageTitle);
 
             //Try submitting an assignment and verify the successful submit message appears
             var submissionTextBox = driver.FindElement(By.ClassName("submission-textbox"));
@@ -381,7 +381,7 @@ namespace CS3750_PlanetExpressLMSTest
             //make sure you got there
             var message = driver.FindElement(By.ClassName("page-title"));
             var value = message.Text;
-            Assert.AreEqual("Submit Assignment", value);
+            Assert.AreEqual("Course Details >> Submit Assignment", value);
         }
 
         [TestMethod]
@@ -426,7 +426,7 @@ namespace CS3750_PlanetExpressLMSTest
             //Assert you're on the right page
             var pageElement = driver.FindElement(By.ClassName("page-title"));
             var pageTitle = pageElement.Text;
-            Assert.AreEqual("Submit Assignment", pageTitle);
+            Assert.AreEqual("Course Details >> Submit Assignment", pageTitle);
 
             //Try submitting an assignment and verify the successful submit message appears
             var submissionTextBox = driver.FindElement(By.ClassName("submission-textbox"));
@@ -590,7 +590,7 @@ namespace CS3750_PlanetExpressLMSTest
             //make sure you got there
             var message = driver.FindElement(By.ClassName("page-title"));
             var value = message.Text;
-            Assert.AreEqual("Submit Assignment", value);
+            Assert.AreEqual("Course Details >> Submit Assignment", value);
         }
 
         [TestMethod]
@@ -619,7 +619,7 @@ namespace CS3750_PlanetExpressLMSTest
             //Assert you're on the right page
             var pageElement = driver.FindElement(By.ClassName("page-title"));
             var pageTitle = pageElement.Text;
-            Assert.AreEqual("Submit Assignment", pageTitle);
+            Assert.AreEqual("Course Details >> Submit Assignment", pageTitle);
 
             //Try submitting an assignment and verify the successful submit message appears
             var submissionTextBox = driver.FindElement(By.ClassName("submission-textbox"));
