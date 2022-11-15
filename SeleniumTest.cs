@@ -125,6 +125,31 @@ namespace CS3750_PlanetExpressLMSTest
         }
 
         [TestMethod]
+        public void ChromeToDoList()
+        {
+            //login
+            driver.Navigate().GoToUrl("https://localhost:44390/login");
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(500);
+
+            var textboxUsername = driver.FindElement(By.Id("textbox-username"));
+            var textboxPassword = driver.FindElement(By.Id("textbox-password"));
+            var buttonLogin = driver.FindElement(By.Id("button-login"));
+
+            textboxUsername.SendKeys("fakestudent@mail.com");
+            textboxPassword.SendKeys("password");
+            buttonLogin.Click();
+
+            //go to a assignment page from to do list
+            var toDoLink = driver.FindElement(By.Id("ass-link"));
+            toDoLink.Click();
+
+            //make sure you got there
+            var message = driver.FindElement(By.ClassName("page-title"));
+            var value = message.Text;
+            Assert.AreEqual("Submit Assignment", value);
+        }
+
+        [TestMethod]
         public void ChromeSubmitAssignment()
         {
             //Log in
@@ -322,6 +347,44 @@ namespace CS3750_PlanetExpressLMSTest
         }
 
         [TestMethod]
+        public void FireFoxToDoList()
+        {
+            //login
+            try
+            {
+                driver.Navigate().GoToUrl("https://localhost:44390/login");
+            }
+            catch
+            {
+                var buttonAdvanced = driver.FindElement(By.Id("advancedButton"));
+                buttonAdvanced.Click();
+
+                var buttonException = driver.FindElement(By.Id("exceptionDialogButton"));
+                buttonException.Click();
+            }
+            var textboxUsername = driver.FindElement(By.Id("textbox-username"));
+            var textboxPassword = driver.FindElement(By.Id("textbox-password"));
+            var buttonLogin = driver.FindElement(By.Id("button-login"));
+
+            textboxUsername.SendKeys("fakestudent@mail.com");
+            textboxPassword.SendKeys("password");
+            buttonLogin.Click();
+
+            //wait until logged in
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("page-title")));
+
+            //go to a assignment from to do list
+            var toDoLink = driver.FindElement(By.Id("ass-link"));
+            toDoLink.Click();
+
+            //make sure you got there
+            var message = driver.FindElement(By.ClassName("page-title"));
+            var value = message.Text;
+            Assert.AreEqual("Submit Assignment", value);
+        }
+
+        [TestMethod]
         public void FirefoxSubmitAssignment()
         {
             //login
@@ -494,6 +557,40 @@ namespace CS3750_PlanetExpressLMSTest
             var message = driver.FindElement(By.ClassName("page-title"));
             var value = message.Text;
             Assert.AreEqual("Course Details", value);
+        }
+
+        [TestMethod]
+        public void EdgeToDoList()
+        {
+            //login
+            driver.Navigate().GoToUrl("https://localhost:44390/login");
+
+            var title = driver.Title;
+            Assert.AreEqual("Login - Planet Express Learning Management System", title);
+
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(500);
+
+            var textboxUsername = driver.FindElement(By.Id("textbox-username"));
+            var textboxPassword = driver.FindElement(By.Id("textbox-password"));
+            var buttonLogin = driver.FindElement(By.Id("button-login"));
+
+            textboxUsername.SendKeys("fakestudent@mail.com");
+            textboxPassword.SendKeys("password");
+            buttonLogin.Click();
+
+
+            //wait until logged in
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("page-title")));
+
+            //go to an assignment from To do list
+            var toDoUrl = driver.FindElement(By.Id("ass-link"));
+            toDoUrl.Click();
+
+            //make sure you got there
+            var message = driver.FindElement(By.ClassName("page-title"));
+            var value = message.Text;
+            Assert.AreEqual("Submit Assignment", value);
         }
 
         [TestMethod]

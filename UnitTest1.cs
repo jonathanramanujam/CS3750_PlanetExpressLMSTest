@@ -355,8 +355,8 @@ namespace CS3750_PlanetExpressLMSTest
 
                 user = _context.User.FirstOrDefault(u => u.Email == "fakestudent@mail.com");
 
-                Assert.AreEqual("1632 N 2000 W", user.FirstName);
-                Assert.AreEqual("1959 Wall Ave", user.LastName);
+                Assert.AreEqual("1632 N 2000 W", user.Address1);
+                Assert.AreEqual("1959 Wall Ave", user.Address2);
             }
         }
     }
