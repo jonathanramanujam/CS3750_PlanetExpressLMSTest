@@ -123,6 +123,44 @@ namespace CS3750_PlanetExpressLMSTest
             var value = message.Text;
             Assert.AreEqual("Course Details", value);
         }
+
+        [TestMethod]
+        public void ChromeSubmitAssignment()
+        {
+            //Log in
+            driver.Navigate().GoToUrl("https://localhost:44390/login");
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(500);
+
+            var textboxUsername = driver.FindElement(By.Id("textbox-username"));
+            var textboxPassword = driver.FindElement(By.Id("textbox-password"));
+            var buttonLogin = driver.FindElement(By.Id("button-login"));
+
+            textboxUsername.SendKeys("student25@email.com");
+            textboxPassword.SendKeys("password");
+            buttonLogin.Click();
+
+            //Go to CourseDetails
+            var buttonDetails = driver.FindElement(By.ClassName("btn-primary"));
+            buttonDetails.Click();
+
+            //Go to submit assignment (text assignment)
+            var buttonSubmitPage = driver.FindElement(By.ClassName("btn-secondary"));
+            buttonSubmitPage.Click();
+
+            //Assert you're on the right page
+            var pageElement = driver.FindElement(By.ClassName("page-title"));
+            var pageTitle = pageElement.Text;
+            Assert.AreEqual("Submit Assignment", pageTitle);
+
+            //Try submitting an assignment and verify the successful submit message appears
+            var submissionTextBox = driver.FindElement(By.ClassName("submission-textbox"));
+            submissionTextBox.SendKeys("asdfjkl;asdfjkl;asdfjkl;asdfjkl;");
+
+            var buttonSubmit = driver.FindElement(By.ClassName("btn-primary"));
+            buttonSubmit.Click();
+
+            Assert.IsNotNull(driver.FindElement(By.ClassName("alert-success")));
+        }
     }
 
     [TestClass]
@@ -282,6 +320,62 @@ namespace CS3750_PlanetExpressLMSTest
             var value = message.Text;
             Assert.AreEqual("Course Details", value);
         }
+
+        [TestMethod]
+        public void FirefoxSubmitAssignment()
+        {
+            //login
+            try
+            {
+                driver.Navigate().GoToUrl("https://localhost:44390/login");
+            }
+            catch
+            {
+                var buttonAdvanced = driver.FindElement(By.Id("advancedButton"));
+                buttonAdvanced.Click();
+
+                var buttonException = driver.FindElement(By.Id("exceptionDialogButton"));
+                buttonException.Click();
+            }
+
+            var textboxUsername = driver.FindElement(By.Id("textbox-username"));
+            var textboxPassword = driver.FindElement(By.Id("textbox-password"));
+            var buttonLogin = driver.FindElement(By.Id("button-login"));
+
+            textboxUsername.SendKeys("student25@email.com");
+            textboxPassword.SendKeys("password");
+            buttonLogin.Click();
+
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("grid-dashboard")));
+
+            //Go to CourseDetails
+            var buttonDetails = driver.FindElement(By.ClassName("btn-primary"));
+            buttonDetails.Click();
+
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+            element = wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("grid-coursedetail-item")));
+
+            //Go to submit assignment (text assignment)
+            var buttonSubmitPage = driver.FindElement(By.ClassName("btn-secondary"));
+            buttonSubmitPage.Click();
+
+            //Assert you're on the right page
+            var pageElement = driver.FindElement(By.ClassName("page-title"));
+            var pageTitle = pageElement.Text;
+            Assert.AreEqual("Submit Assignment", pageTitle);
+
+            //Try submitting an assignment and verify the successful submit message appears
+            var submissionTextBox = driver.FindElement(By.ClassName("submission-textbox"));
+            submissionTextBox.SendKeys("asdfjkl;asdfjkl;asdfjkl;asdfjkl;");
+
+            var buttonSubmit = driver.FindElement(By.ClassName("btn-primary"));
+            buttonSubmit.Click();
+
+            Assert.IsNotNull(driver.FindElement(By.ClassName("alert-success")));
+
+
+        }
     }
 
     [TestClass]
@@ -400,6 +494,44 @@ namespace CS3750_PlanetExpressLMSTest
             var message = driver.FindElement(By.ClassName("page-title"));
             var value = message.Text;
             Assert.AreEqual("Course Details", value);
+        }
+
+        [TestMethod]
+        public void EdgeSubmitAssignment()
+        {
+            //Log in
+            driver.Navigate().GoToUrl("https://localhost:44390/login");
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(500);
+
+            var textboxUsername = driver.FindElement(By.Id("textbox-username"));
+            var textboxPassword = driver.FindElement(By.Id("textbox-password"));
+            var buttonLogin = driver.FindElement(By.Id("button-login"));
+
+            textboxUsername.SendKeys("student25@email.com");
+            textboxPassword.SendKeys("password");
+            buttonLogin.Click();
+
+            //Go to CourseDetails
+            var buttonDetails = driver.FindElement(By.ClassName("btn-primary"));
+            buttonDetails.Click();
+
+            //Go to submit assignment (text assignment)
+            var buttonSubmitPage = driver.FindElement(By.ClassName("btn-secondary"));
+            buttonSubmitPage.Click();
+
+            //Assert you're on the right page
+            var pageElement = driver.FindElement(By.ClassName("page-title"));
+            var pageTitle = pageElement.Text;
+            Assert.AreEqual("Submit Assignment", pageTitle);
+
+            //Try submitting an assignment and verify the successful submit message appears
+            var submissionTextBox = driver.FindElement(By.ClassName("submission-textbox"));
+            submissionTextBox.SendKeys("asdfjkl;asdfjkl;asdfjkl;asdfjkl;");
+
+            var buttonSubmit = driver.FindElement(By.ClassName("btn-primary"));
+            buttonSubmit.Click();
+
+            Assert.IsNotNull(driver.FindElement(By.ClassName("alert-success")));
         }
     }
 }
