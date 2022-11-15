@@ -333,7 +333,7 @@ namespace CS3750_PlanetExpressLMSTest
             string addy1 = user.Address1;
             string addy2 = user.Address2;
 
-            // Alternate between Real Scholar and Fake Student, and make sure it changes.
+            // Alternate from Walmart & McD's to Temple Square & Tabernacle, and make sure it changes.
             if (addy1 == "1632 N 2000 W" || addy2 == "1959 Wall Ave")
             {
                 user.Address1 = "2145 Washington Blvd";
@@ -346,7 +346,7 @@ namespace CS3750_PlanetExpressLMSTest
                 Assert.AreEqual("2145 Washington Blvd", user.Address1);
                 Assert.AreEqual("North West Temple Street", user.Address2);
             }
-            else // if name is fake student or anything else
+            else // if addy is Walmart, Mcds or anything else
             {
                 user.Address1 = "1632 N 2000 W";
                 user.Address2 = "1959 Wall Ave";
