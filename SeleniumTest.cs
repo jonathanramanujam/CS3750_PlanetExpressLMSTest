@@ -275,10 +275,6 @@ namespace CS3750_PlanetExpressLMSTest
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
             IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("page-title")));
 
-            /*            var message = driver.FindElement(By.Id("page-title"));
-                        var value = message.Text;
-                        Assert.AreEqual("Dashboard", value);*/
-
             var paymentLink = driver.FindElement(By.LinkText("Account"));
             paymentLink.Click();
 
@@ -338,7 +334,7 @@ namespace CS3750_PlanetExpressLMSTest
             var buttonDetails = driver.FindElement(By.ClassName("btn-primary"));
             buttonDetails.Click();
 
-
+            element = wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("page-title")));
 
             //make sure you got there
             var message = driver.FindElement(By.ClassName("page-title"));
@@ -372,11 +368,14 @@ namespace CS3750_PlanetExpressLMSTest
 
             //wait until logged in
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
-            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("page-title")));
+            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("ass-link")));
 
             //go to a assignment from to do list
             var toDoLink = driver.FindElement(By.Id("ass-link"));
             toDoLink.Click();
+
+            //wait until logged in
+            element = wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("page-title")));
 
             //make sure you got there
             var message = driver.FindElement(By.ClassName("page-title"));
@@ -416,12 +415,13 @@ namespace CS3750_PlanetExpressLMSTest
             var buttonDetails = driver.FindElement(By.ClassName("btn-primary"));
             buttonDetails.Click();
 
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
             element = wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("grid-coursedetail-item")));
 
             //Go to submit assignment (text assignment)
             var buttonSubmitPage = driver.FindElement(By.ClassName("btn-secondary"));
             buttonSubmitPage.Click();
+
+            element = wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("page-title")));
 
             //Assert you're on the right page
             var pageElement = driver.FindElement(By.ClassName("page-title"));
@@ -434,6 +434,8 @@ namespace CS3750_PlanetExpressLMSTest
 
             var buttonSubmit = driver.FindElement(By.ClassName("btn-primary"));
             buttonSubmit.Click();
+
+            element = wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("alert-success")));
 
             Assert.IsNotNull(driver.FindElement(By.ClassName("alert-success")));
 
